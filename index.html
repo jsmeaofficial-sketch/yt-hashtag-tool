@@ -788,7 +788,7 @@ const SHARED_CONFIG = {
 
 // ===================== STATE =====================
 let state = {
-  apiKey: 'AIzaSyA8dBy7U326OP_9a9JrGjFToFmE6lmXMlc',
+  apiKey: '',
   fixedTags: [],
   blacklist: [],
   contentTags: [],
@@ -1576,12 +1576,32 @@ function renderSuggestResults() {
 }
 
 // ===================== OUTPUT =====================
+
+// YouTube hashtag rules: no spaces, only letters/numbers/underscore/Japanese
+function sanitizeTagForYouTube(tag) {
+  tag = tag.replace(/^#+/, '').trim();
+  if (!tag) return '';
+  const hasJP = /[぀-ゟ゠-ヿ一-鿿＀-￯]/.test(tag);
+  if (hasJP) {
+    // Japanese: just remove spaces
+    tag = tag.replace(/\s+/g, '');
+  } else {
+    // English multi-word: convert to camelCase (e.g. "how to use" → "howToUse")
+    tag = tag.replace(/\s+(.)/g, (_, c) => c.toUpperCase());
+  }
+  // Strip any remaining disallowed characters
+  tag = tag.replace(/[^a-zA-Z0-9_぀-ゟ゠-ヿ一-鿿＀-￯]/g, '');
+  return tag;
+}
+
 function collectSelected() {
   const seen = new Set();
   const out = [];
   const add = (tag) => {
-    const t = tag.replace(/^#+/, '');
-    if (!t || seen.has(t.toLowerCase()) || isBlacklisted(t)) return;
+    const raw = tag.replace(/^#+/, '').trim();
+    if (!raw || isBlacklisted(raw)) return;
+    const t = sanitizeTagForYouTube(raw);
+    if (!t || seen.has(t.toLowerCase())) return;
     seen.add(t.toLowerCase());
     out.push(t);
   };
@@ -1643,31 +1663,4 @@ function updateOutput() {
 
 function copyOutput() {
   const text = formatOutput(collectSelected());
-  navigator.clipboard.writeText(text).then(() => showToast('コピーしました ✓'));
-}
-
-// ===================== UI UTILS =====================
-function setLoading(active, text) {
-  const loader = document.getElementById('mainLoader');
-  const loaderText = document.getElementById('loaderText');
-  if (active) {
-    loader.classList.add('active');
-    if (text) loaderText.textContent = text;
-  } else {
-    loader.classList.remove('active');
-  }
-}
-
-function showToast(msg) {
-  const toast = document.getElementById('toast');
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2500);
-}
-
-// ===================== BOOT =====================
-init();
-renderFixedTagsPreview();
-</script>
-</body>
-</html>
+  navigator.clipboard.writeText(text).then(() => showToast('コピ�
