@@ -788,7 +788,7 @@ const SHARED_CONFIG = {
 
 // ===================== STATE =====================
 let state = {
-  apiKey: 'AIzaSyA8dBy7U326OP_9a9JrGjFToFmE6lmXMlc',
+  apiKey: '',
   fixedTags: [],
   blacklist: [],
   contentTags: [],
@@ -1577,20 +1577,24 @@ function renderSuggestResults() {
 
 // ===================== OUTPUT =====================
 
-// YouTube hashtag rules: no spaces, only letters/numbers/underscore/Japanese
+// YouTube hashtag rules: no spaces, only Unicode letters/numbers/underscore
 function sanitizeTagForYouTube(tag) {
   tag = tag.replace(/^#+/, '').trim();
   if (!tag) return '';
-  const hasJP = /[぀-ゟ゠-ヿ一-鿿＀-￯]/.test(tag);
+  // Detect Japanese (Hiragana / Katakana / Kanji)
+  const hasJP = /[぀-ヿ一-鿿]/.test(tag);
   if (hasJP) {
-    // Japanese: just remove spaces
+    // Japanese: remove whitespace only (keep all Japanese characters)
     tag = tag.replace(/\s+/g, '');
   } else {
-    // English multi-word: convert to camelCase (e.g. "how to use" → "howToUse")
-    tag = tag.replace(/\s+(.)/g, (_, c) => c.toUpperCase());
+    // English multi-word: join with underscore (e.g. "how to use" → "how_to_use")
+    tag = tag.replace(/\s+/g, '_');
   }
-  // Strip any remaining disallowed characters
-  tag = tag.replace(/[^a-zA-Z0-9_぀-ゟ゠-ヿ一-鿿＀-￯]/g, '');
+  // Keep only Unicode letters, Unicode digits, and underscore
+  // \p{L} = any language letter, \p{N} = any numeric character
+  tag = tag.replace(/[^\p{L}\p{N}_]/gu, '');
+  // Trim and collapse underscores
+  tag = tag.replace(/^_+|_+$/g, '').replace(/_+/g, '_');
   return tag;
 }
 
@@ -1657,10 +1661,4 @@ function updateOutput() {
 
   const hint = state.outputFormat === 'studio' ? '(YouTube Studio のタグ欄に貼り付け)'
              : state.outputFormat === 'desc' ? '(概要欄の末尾に貼り付け)' : '';
-  countEl.innerHTML = `選択中: <span>${tags.length}</span> / ${state.options.maxTotal} タグ　<span style="color:var(--text-sub)">${hint}</span>`;
-  updateCharCounter(tags);
-}
-
-function copyOutput() {
-  const text = formatOutput(collectSelected());
-  navigator.clipboard.writeText(text).then(() => showToast('コピ�
+  countEl.innerHTML = `選択中: <span>${tags.length}</span> / ${state.options.maxTotal} タグ　<span style="color:var(--text
