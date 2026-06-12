@@ -2290,10 +2290,12 @@ function saveGeminiApiKey() {
   const v = document.getElementById('geminiApiKeySettings').value.trim();
   state.geminiApiKey = v;
   const el = document.getElementById('geminiKeyStatus');
-  if (v.startsWith('AIza') && v.length > 30) {
+  // 旧形式: AIza... / 新形式: AQ.Ab8...（2026年〜のAI Studio発行キー）
+  const validFormat = (v.startsWith('AIza') && v.length > 30) || (v.startsWith('AQ.') && v.length > 30);
+  if (validFormat) {
     el.innerHTML = '<span style="color:var(--green)">✓ 設定済み</span>';
   } else if (v) {
-    el.innerHTML = '<span style="color:var(--accent)">形式を確認してください</span>';
+    el.innerHTML = '<span style="color:var(--accent)">形式を確認してください（AIza... または AQ. で始まる文字列）</span>';
   } else {
     el.innerHTML = '';
   }
