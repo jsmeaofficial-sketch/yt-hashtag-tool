@@ -2315,6 +2315,15 @@ async function analyzeWithGemini() {
     setGeminiStatus('⚠️ 設定タブで Gemini API キーを入力してください', 'warn');
     return;
   }
+  // youtu.be / shorts / パラメータ付き(&list= ?si= 等)のURLは Gemini が動画として
+  // 認識できず "Unsupported MIME type: text/html" になるため、正規形に変換する
+  const vid = extractVideoId(url);
+  if (!vid) {
+    setGeminiStatus('⚠️ 動画IDを認識できませんでした。URLを確認してください', 'warn');
+    return;
+  }
+  const canonicalUrl = `https://www.youtube.com/watch?v=${vid}`;
+
   const btn = document.getElementById('geminiBtn');
   btn.disabled = true;
   setGeminiStatus('✨ Gemini が動画を解析中です... (30〜60秒かかる場合があります)', 'info');
@@ -2355,19 +2364,14 @@ async function analyzeWithGemini() {
 - description: SEO対策済みの自然な日本語説明文。重要キーワードを冒頭150文字に含める
 `.trim();
 
-  try {
+  const callGemini = async (parts) => {
     const res = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [{
-            parts: [
-              { file_data: { file_uri: url } },
-              { text: prompt }
-            ]
-          }],
+          contents: [{ parts }],
           generationConfig: {
             responseMimeType: 'application/json',
             temperature: 0.4
@@ -2376,21 +2380,41 @@ async function analyzeWithGemini() {
       }
     );
     const data = await res.json();
-    if (!res.ok || data.error) {
-      const msg = data.error?.message || res.statusText;
-      setGeminiStatus(`❌ エラー: ${msg}`, 'error');
-      btn.disabled = false;
-      return;
-    }
-    let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    if (!res.ok || data.error) throw new Error(data.error?.message || res.statusText);
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
     // JSON部分を抽出（```json ... ``` 対策）
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) throw new Error('レスポンスのJSON解析に失敗しました');
-    const result = JSON.parse(jsonMatch[0]);
+    return JSON.parse(jsonMatch[0]);
+  };
+
+  try {
+    let result;
+    try {
+      // ① まず動画本体を直接解析
+      result = await callGemini([
+        { file_data: { file_uri: canonicalUrl } },
+        { text: prompt }
+      ]);
+    } catch(e) {
+      // ② 失敗時（非対応形式・限定公開・地域制限等）はタイトル+説明文ベースで再分析
+      const desc = document.getElementById('videoDesc').value.trim();
+      if (!titleHint && !desc) throw new Error(e.message + '（タイトル・説明文を入力するとテキストベースで分析できます）');
+      setGeminiStatus('⚠️ 動画の直接解析に失敗。タイトル・説明文ベースで再分析中...', 'info');
+      const textPrompt = prompt + `
+
+※注意: 動画本体は解析できないため、以下のタイトルと説明文の内容から推定して回答してください。
+chapters は説明文内にタイムスタンプ(0:00形式)があればそれを使い、なければ内容から妥当な構成を推定してください。
+
+タイトル: ${titleHint || '（不明）'}
+説明文:
+${desc.slice(0, 4000)}`;
+      result = await callGemini([{ text: textPrompt }]);
+    }
     renderGeminiResults(result);
     setGeminiStatus('✅ 分析完了！タグをクリックして生成結果に追加できます', 'ok');
   } catch(e) {
-    setGeminiStatus(`❌ ${e.message}`, 'error');
+    setGeminiStatus(`❌ エラー: ${e.message}`, 'error');
   }
   btn.disabled = false;
 }
@@ -2411,11 +2435,11 @@ function renderGeminiResults(r) {
   summaryBox.textContent = r.summary || '（要約なし）';
 
   // 日本語タグ
-  state.aiTagsJa = (r.tags_ja || []).map(t => ({ tag: t.replace(/^#+/, '').trim(), selected: false }));
+  state.aiTagsJa = (r.tags_ja || []).map(t => ({ tag: String(t).replace(/^#+/, '').trim(), selected: false })).filter(i => i.tag);
   renderAiTags('aiTagsJaContainer', state.aiTagsJa, 'ja');
 
   // 英語タグ
-  state.aiTagsEn = (r.tags_en || []).map(t => ({ tag: t.replace(/^#+/, '').trim(), selected: false }));
+  state.aiTagsEn = (r.tags_en || []).map(t => ({ tag: String(t).replace(/^#+/, '').trim(), selected: false })).filter(i => i.tag);
   renderAiTags('aiTagsEnContainer', state.aiTagsEn, 'en');
 
   // タイトル改善
