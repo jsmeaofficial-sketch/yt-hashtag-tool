@@ -914,6 +914,12 @@
     <div class="ai-results-card" id="aiResultsCard" style="display:none;">
       <div class="ai-results-title">✨ Gemini AI 分析結果</div>
 
+      <div class="fmt-btns" style="margin-bottom:14px;">
+        <button class="fmt-btn active" id="aiLang-ja" onclick="setAiLang('ja')">🇯🇵 日本語</button>
+        <button class="fmt-btn" id="aiLang-en" onclick="setAiLang('en')">🌐 English</button>
+        <span style="font-size:11px; color:var(--text-sub); align-self:center;">タイトル案・サムネ文言・説明文・チャプターを切り替え</span>
+      </div>
+
       <!-- 要約 -->
       <div class="ai-section" id="aiSummarySection">
         <div class="ai-section-label">📝 動画要約</div>
@@ -934,19 +940,19 @@
 
       <!-- タイトル改善 -->
       <div class="ai-section" id="aiTitlesSection">
-        <div class="ai-section-label">💡 タイトル改善提案（CTR最適化・クリックでコピー）</div>
+        <div class="ai-section-label" id="aiTitlesLabel">💡 タイトル改善提案（CTR最適化・クリックでコピー）</div>
         <div id="aiTitlesContainer"></div>
       </div>
 
       <!-- サムネイル文言 -->
       <div class="ai-section" id="aiThumbSection" style="display:none;">
-        <div class="ai-section-label">🖼️ サムネイル文言案（7文字以内・クリックでコピー）</div>
+        <div class="ai-section-label" id="aiThumbLabel">🖼️ サムネイル文言案（7文字以内・クリックでコピー）</div>
         <div class="ai-tag-group" id="aiThumbContainer"></div>
       </div>
 
       <!-- 説明文 -->
       <div class="ai-section" id="aiDescSection">
-        <div class="ai-section-label">📄 説明文（概要欄用）</div>
+        <div class="ai-section-label" id="aiDescLabel">📄 説明文（概要欄用）</div>
         <div class="ai-copyblock" id="aiDescBox">
           <button class="ai-copy-btn" onclick="copyAiBlock('aiDescBox')">📋 コピー</button>
           <span id="aiDescText"></span>
@@ -955,7 +961,7 @@
 
       <!-- チャプター -->
       <div class="ai-section" id="aiChaptersSection">
-        <div class="ai-section-label">⏱️ チャプター（タイムスタンプ）</div>
+        <div class="ai-section-label" id="aiChaptersLabel">⏱️ チャプター（タイムスタンプ）</div>
         <div class="ai-copyblock" id="aiChaptersBox">
           <button class="ai-copy-btn" onclick="copyAiBlock('aiChaptersBox')">📋 コピー</button>
           <span id="aiChaptersText"></span>
@@ -1102,6 +1108,8 @@ let state = {
   demandMap: {},           // { tagLower: true/false } — 検索需要チェック結果
   shortsMode: false,       // 📱 Shortsモード
   lastVideos: [],          // 直近の参照人気動画（競合分析用）
+  aiResult: null,          // Gemini分析結果（日英切り替え用に保持）
+  aiLang: 'ja',            // AI結果の表示言語 'ja' | 'en'
   options: {
     maxContent: 20,
     maxPopular: 30,
@@ -2342,10 +2350,21 @@ async function analyzeWithGemini() {
     "改善タイトル案2",
     "改善タイトル案3"
   ],
+  "title_suggestions_en": [
+    "Improved English title 1",
+    "Improved English title 2",
+    "Improved English title 3"
+  ],
   "thumbnail_texts": ["サムネ文言案1", "サムネ文言案2", "サムネ文言案3", "サムネ文言案4"],
+  "thumbnail_texts_en": ["Thumb text 1", "Thumb text 2", "Thumb text 3"],
   "description": "YouTube概要欄用の説明文（400〜600文字、日本語）",
+  "description_en": "English description for the YouTube description box",
   "chapters": [
     {"time": "0:00", "title": "イントロ"},
+    ...
+  ],
+  "chapters_en": [
+    {"time": "0:00", "title": "Intro"},
     ...
   ]
 }
@@ -2359,9 +2378,13 @@ async function analyzeWithGemini() {
   ③ 視聴者ベネフィットを先頭に置く（「〜できる」「〜がわかる」）
   ④ 疑問形・意外性のフックを使う
   ⑤ 検索結果で切れないよう32文字以内に収める
+- title_suggestions_en: 同じCTRテクニックを使った英語の改善タイトル案3つ。海外視聴者向けに自然な英語で、70文字以内
 - thumbnail_texts: サムネイルに大きく載せる短いインパクト文言。7文字以内、3〜4案（例:「9割が知らない」→×長い、「衝撃の結末」→○）
+- thumbnail_texts_en: 英語サムネ文言。4単語以内、3〜4案（例: "Game Changer", "Must Watch"）
 - chapters: 動画内容に基づくタイムスタンプ（チャプター）。必ず "0:00" から開始し3個以上
+- chapters_en: chapters と同じタイムスタンプで、タイトルのみ英訳したもの
 - description: SEO対策済みの自然な日本語説明文。重要キーワードを冒頭150文字に含める
+- description_en: 海外視聴者向けのSEO対策済み英語説明文（80〜120 words）。重要キーワードを冒頭に含める
 `.trim();
 
   const callGemini = async (parts) => {
@@ -2430,6 +2453,8 @@ function renderGeminiResults(r) {
   const card = document.getElementById('aiResultsCard');
   card.style.display = '';
 
+  state.aiResult = r;
+
   // 要約
   const summaryBox = document.getElementById('aiSummaryBox');
   summaryBox.textContent = r.summary || '（要約なし）';
@@ -2442,10 +2467,48 @@ function renderGeminiResults(r) {
   state.aiTagsEn = (r.tags_en || []).map(t => ({ tag: String(t).replace(/^#+/, '').trim(), selected: false })).filter(i => i.tag);
   renderAiTags('aiTagsEnContainer', state.aiTagsEn, 'en');
 
+  // 日英切り替えセクション（タイトル・サムネ・説明文・チャプター）
+  setAiLang(state.aiLang || 'ja');
+
+  updateOutput();
+}
+
+// ===== 日英切り替え =====
+function setAiLang(lang) {
+  state.aiLang = lang;
+  const jaBtn = document.getElementById('aiLang-ja');
+  const enBtn = document.getElementById('aiLang-en');
+  if (jaBtn) jaBtn.className = 'fmt-btn' + (lang === 'ja' ? ' active' : '');
+  if (enBtn) enBtn.className = 'fmt-btn' + (lang === 'en' ? ' active' : '');
+  renderAiLangSections();
+}
+
+function renderAiLangSections() {
+  const r = state.aiResult || {};
+  const en = state.aiLang === 'en';
+
+  // ラベル切り替え
+  document.getElementById('aiTitlesLabel').textContent = en
+    ? '💡 Title Suggestions (CTR-optimized / click to copy)'
+    : '💡 タイトル改善提案（CTR最適化・クリックでコピー）';
+  document.getElementById('aiThumbLabel').textContent = en
+    ? '🖼️ Thumbnail Text Ideas (≤4 words / click to copy)'
+    : '🖼️ サムネイル文言案（7文字以内・クリックでコピー）';
+  document.getElementById('aiDescLabel').textContent = en
+    ? '📄 Description (for the description box)'
+    : '📄 説明文（概要欄用）';
+  document.getElementById('aiChaptersLabel').textContent = en
+    ? '⏱️ Chapters (timestamps)'
+    : '⏱️ チャプター（タイムスタンプ）';
+
   // タイトル改善
+  const titles = en ? (r.title_suggestions_en || []) : (r.title_suggestions || []);
   const titlesEl = document.getElementById('aiTitlesContainer');
   titlesEl.innerHTML = '';
-  (r.title_suggestions || []).forEach((t, i) => {
+  if (!titles.length) {
+    titlesEl.innerHTML = '<div class="empty">' + (en ? 'No English suggestions（再分析すると生成されます）' : 'タイトル案がありません') + '</div>';
+  }
+  titles.forEach((t, i) => {
     const div = document.createElement('div');
     div.className = 'title-option';
     const num = document.createElement('span');
@@ -2464,7 +2527,7 @@ function renderGeminiResults(r) {
   const thumbSection = document.getElementById('aiThumbSection');
   const thumbEl = document.getElementById('aiThumbContainer');
   thumbEl.innerHTML = '';
-  const thumbTexts = r.thumbnail_texts || [];
+  const thumbTexts = en ? (r.thumbnail_texts_en || []) : (r.thumbnail_texts || []);
   thumbSection.style.display = thumbTexts.length ? '' : 'none';
   thumbTexts.forEach(t => {
     const chip = document.createElement('span');
@@ -2476,13 +2539,14 @@ function renderGeminiResults(r) {
   });
 
   // 説明文
-  document.getElementById('aiDescText').textContent = r.description || '';
+  document.getElementById('aiDescText').textContent =
+    en ? (r.description_en || '（English description なし。再分析すると生成されます）') : (r.description || '');
 
   // チャプター
-  const chapters = (r.chapters || []).map(c => `${c.time}  ${c.title}`).join('\n');
-  document.getElementById('aiChaptersText').textContent = chapters;
-
-  updateOutput();
+  const chArr = en ? (r.chapters_en || []) : (r.chapters || []);
+  const chapters = chArr.map(c => `${c.time}  ${c.title}`).join('\n');
+  document.getElementById('aiChaptersText').textContent =
+    chapters || (en ? '（English chapters なし。再分析すると生成されます）' : '');
 }
 
 function renderAiTags(containerId, items, lang) {
