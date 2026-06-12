@@ -527,6 +527,185 @@
   .fetched-meta .meta-info { overflow: hidden; }
   .fetched-meta .meta-title { font-weight: 700; font-size: 13px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .fetched-meta .meta-ch { font-size: 11px; color: var(--text-sub); }
+
+  /* ===== GEMINI AI SECTION ===== */
+  :root { --gemini: #8b5cf6; --gemini2: #a78bfa; }
+  .ai-btn-area {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .btn-gemini {
+    background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity .2s;
+    width: 100%;
+    justify-content: center;
+  }
+  .btn-gemini:hover { opacity: .85; }
+  .btn-gemini:disabled { opacity: .45; cursor: not-allowed; }
+  .gemini-status {
+    font-size: 12px;
+    color: var(--text-sub);
+    margin-top: 6px;
+    min-height: 18px;
+  }
+  .ai-results-card {
+    background: var(--surface);
+    border: 1px solid var(--gemini);
+    border-radius: var(--radius);
+    padding: 20px;
+    grid-column: 1 / -1;
+  }
+  .ai-results-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gemini2);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ai-section { margin-bottom: 18px; }
+  .ai-section-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gemini2);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    margin-bottom: 8px;
+  }
+  .ai-summary-box {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .ai-tag-group { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+  .ai-tag {
+    background: rgba(139,92,246,.18);
+    border: 1px solid rgba(139,92,246,.4);
+    color: var(--gemini2);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background .15s;
+    user-select: none;
+  }
+  .ai-tag:hover { background: rgba(139,92,246,.35); }
+  .ai-tag.added { background: rgba(46,184,114,.2); border-color: var(--green); color: var(--green); }
+  .ai-lang-label { font-size: 11px; color: var(--text-sub); margin-bottom: 4px; }
+  .ai-copyblock {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text);
+    white-space: pre-wrap;
+    word-break: break-word;
+    position: relative;
+  }
+  .ai-copy-btn {
+    position: absolute;
+    top: 8px; right: 8px;
+    background: var(--surface3);
+    border: none;
+    color: var(--text);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    cursor: pointer;
+  }
+  .ai-copy-btn:hover { background: var(--gemini); }
+  .title-option {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    cursor: pointer;
+    transition: border-color .15s;
+  }
+  .title-option:hover { border-color: var(--gemini); }
+  .title-num {
+    color: var(--gemini2);
+    font-weight: 700;
+    font-size: 12px;
+    min-width: 18px;
+  }
+  .ai-gemini-key-note {
+    font-size: 12px;
+    color: var(--text-sub);
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: rgba(139,92,246,.1);
+    border-radius: 6px;
+    border-left: 3px solid var(--gemini);
+  }
+
+  /* OUTPUT TAGS (クリックで先頭固定) */
+  .out-tag {
+    display: inline-block;
+    cursor: pointer;
+    color: var(--blue);
+    margin: 0 4px 2px 0;
+    padding: 1px 4px;
+    border-radius: 4px;
+    transition: background .15s;
+  }
+  .out-tag:hover { background: var(--surface3); }
+  .out-tag.studio { color: var(--text-sub); }
+  .out-tag.pinned { color: #ffd75e; }
+  .top3-divider {
+    display: inline-block;
+    color: var(--text-sub);
+    font-size: 11px;
+    margin: 0 8px 2px 2px;
+    padding: 1px 6px;
+    border-left: 2px solid var(--surface3);
+    user-select: none;
+  }
+  .demand-badge { font-size: 11px; margin-left: 2px; }
+  .output-hint {
+    font-size: 11px;
+    color: var(--text-sub);
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+  .output-hint b { color: var(--blue); }
+  .demand-row {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .demand-status { font-size: 11px; color: var(--text-sub); }
+  .toggle-row.shorts {
+    background: #2a1a30;
+    border-color: #7a3a8a;
+    color: #d48fe0;
+    margin-top: 10px;
+  }
+  .toggle-row.shorts .toggle-switch input:checked + .toggle-slider { background: #b05ad0; }
+  .history-meta { flex: 1; font-size: 13px; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -538,8 +717,8 @@
     <div class="subtitle">動画説明文・人気動画分析・固定タグを統合</div>
   </div>
   <div class="tab-btns">
-    <button class="tab-btn active" onclick="switchTab('main')">🏠 メイン</button>
-    <button class="tab-btn" onclick="switchTab('settings')">⚙️ 設定</button>
+    <button class="tab-btn active" data-tab="main" onclick="switchTab('main', this)">🏠 メイン</button>
+    <button class="tab-btn" data-tab="settings" onclick="switchTab('settings', this)">⚙️ 設定</button>
   </div>
 </header>
 
@@ -599,6 +778,17 @@
         </div>
       </div>
 
+      <div class="toggle-row shorts">
+        <label class="toggle-switch">
+          <input type="checkbox" id="shortsToggle" onchange="onShortsToggle()">
+          <span class="toggle-slider"></span>
+        </label>
+        <div>
+          <strong>📱 Shorts モード</strong>
+          <span style="color:var(--text-sub); font-size:12px; margin-left:6px;">#Shorts を先頭に自動追加・少数精鋭(3〜5個)を推奨表示。Shorts URLで自動ON</span>
+        </div>
+      </div>
+
       <!-- SUGGEST -->
       <div class="suggest-area">
         <div class="suggest-label">🔎 YouTube 検索サジェスト（APIキー不要・無料）</div>
@@ -610,6 +800,7 @@
           <span class="spinner" style="width:12px;height:12px;display:inline-block;vertical-align:middle;margin-right:4px;"></span> 取得中...
         </div>
         <div id="suggestResults" class="suggest-results"></div>
+        <div style="font-size:11px; color:var(--text-sub); margin-top:8px;">※ 非公式エンドポイントを利用しているため、予告なく取得できなくなる可能性があります</div>
       </div>
 
       <div class="generate-area">
@@ -620,6 +811,14 @@
           <div class="spinner"></div>
           <span id="loaderText">YouTube API を検索中...</span>
         </div>
+      </div>
+
+      <!-- GEMINI AI ANALYSIS -->
+      <div class="ai-btn-area">
+        <button class="btn-gemini" onclick="analyzeWithGemini()" id="geminiBtn">
+          ✨ Gemini AI で動画を分析（要約・タイトル改善・チャプター・日英タグ）
+        </button>
+        <div class="gemini-status" id="geminiStatus"></div>
       </div>
     </div>
 
@@ -647,10 +846,20 @@
         <div class="char-bar-wrap"><div class="char-bar" id="charBar" style="width:0%"></div></div>
         <div class="char-nums">
           <span class="cur" id="charCur">0</span>
-          <span>/ 500文字</span>
+          <span id="charMax">/ 500文字</span>
         </div>
       </div>
       <div class="count-indicator" id="countIndicator"></div>
+
+      <div class="demand-row">
+        <button class="btn btn-sm btn-secondary" onclick="checkTagDemand()" id="demandBtn">📈 検索需要をチェック</button>
+        <span class="demand-status" id="demandStatus"></span>
+      </div>
+
+      <div class="output-hint" id="outputHint" style="display:none;">
+        💡 概要欄ハッシュタグは<b>最初の3個だけ</b>がタイトル上に表示されます。出力内のタグをクリックすると ⭐先頭に固定/解除できます。<br>
+        推奨は<b>3〜5個</b>。60個を超えると<b>全ハッシュタグが無効</b>になります。📈 = YouTube検索サジェストに需要が確認できたタグ。
+      </div>
     </div>
 
     <!-- EXISTING TAGS FROM URL -->
@@ -691,6 +900,67 @@
     <div class="card result-full" id="videoRefsCard" style="display:none;">
       <div class="card-title"><span class="icon">📺</span> 参照した人気動画</div>
       <div id="videoRefsList"></div>
+      <div style="margin-top:14px;">
+        <button class="btn-gemini" style="width:auto;" onclick="analyzeCompetitors()" id="compBtn">✨ 上位動画のタイトルパターンを分析（Gemini）</button>
+        <div class="gemini-status" id="compStatus"></div>
+        <div class="ai-copyblock" id="compResult" style="display:none; margin-top:10px;">
+          <button class="ai-copy-btn" onclick="copyAiBlock('compResult')">📋 コピー</button>
+          <span id="compResultText"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- GEMINI AI RESULTS -->
+    <div class="ai-results-card" id="aiResultsCard" style="display:none;">
+      <div class="ai-results-title">✨ Gemini AI 分析結果</div>
+
+      <!-- 要約 -->
+      <div class="ai-section" id="aiSummarySection">
+        <div class="ai-section-label">📝 動画要約</div>
+        <div class="ai-summary-box" id="aiSummaryBox"></div>
+      </div>
+
+      <!-- タグ 日本語 -->
+      <div class="ai-section" id="aiTagsJaSection">
+        <div class="ai-section-label">🏷️ AIタグ（日本語）— クリックで生成結果に追加</div>
+        <div class="ai-tag-group" id="aiTagsJaContainer"></div>
+      </div>
+
+      <!-- タグ 英語 -->
+      <div class="ai-section" id="aiTagsEnSection">
+        <div class="ai-section-label">🏷️ AIタグ（English）— Click to add</div>
+        <div class="ai-tag-group" id="aiTagsEnContainer"></div>
+      </div>
+
+      <!-- タイトル改善 -->
+      <div class="ai-section" id="aiTitlesSection">
+        <div class="ai-section-label">💡 タイトル改善提案（CTR最適化・クリックでコピー）</div>
+        <div id="aiTitlesContainer"></div>
+      </div>
+
+      <!-- サムネイル文言 -->
+      <div class="ai-section" id="aiThumbSection" style="display:none;">
+        <div class="ai-section-label">🖼️ サムネイル文言案（7文字以内・クリックでコピー）</div>
+        <div class="ai-tag-group" id="aiThumbContainer"></div>
+      </div>
+
+      <!-- 説明文 -->
+      <div class="ai-section" id="aiDescSection">
+        <div class="ai-section-label">📄 説明文（概要欄用）</div>
+        <div class="ai-copyblock" id="aiDescBox">
+          <button class="ai-copy-btn" onclick="copyAiBlock('aiDescBox')">📋 コピー</button>
+          <span id="aiDescText"></span>
+        </div>
+      </div>
+
+      <!-- チャプター -->
+      <div class="ai-section" id="aiChaptersSection">
+        <div class="ai-section-label">⏱️ チャプター（タイムスタンプ）</div>
+        <div class="ai-copyblock" id="aiChaptersBox">
+          <button class="ai-copy-btn" onclick="copyAiBlock('aiChaptersBox')">📋 コピー</button>
+          <span id="aiChaptersText"></span>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -712,6 +982,17 @@
         YouTube Data API v3 を有効化してください。
       </p>
       <div id="apiTestResult" style="margin-top:10px; font-size:13px;"></div>
+    </div>
+
+    <div class="card" style="border-color: var(--gemini);">
+      <div class="card-title" style="color:var(--gemini2);"><span class="icon">✨</span> Gemini AI API 設定</div>
+      <label>Gemini API キー</label>
+      <input type="text" id="geminiApiKeySettings" placeholder="AIzaSy..." oninput="saveGeminiApiKey()">
+      <div class="ai-gemini-key-note" style="margin-top:10px;">
+        API キーは <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--gemini2);">Google AI Studio</a> で無料取得できます。<br>
+        無料枠（gemini-2.5-flash: 約1,500リクエスト/日）の範囲で利用できます。
+      </div>
+      <div id="geminiKeyStatus" style="margin-top:8px; font-size:13px;"></div>
     </div>
 
     <div class="card">
@@ -752,6 +1033,17 @@
       </div>
     </div>
 
+    <!-- HISTORY -->
+    <div class="card result-full">
+      <div class="card-title"><span class="icon">🕘</span> 生成履歴（最新20件）</div>
+      <p style="font-size:13px; color:var(--text-sub); margin-bottom:14px;">
+        コピー時に自動保存されます。シリーズ動画で前回のタグ構成を呼び出せます。
+      </p>
+      <div id="historyList">
+        <div class="empty">履歴がありません</div>
+      </div>
+    </div>
+
     <!-- BLACKLIST -->
     <div class="card result-full">
       <div class="card-title"><span class="icon">🚫</span> 除外タグ（ブラックリスト）</div>
@@ -778,24 +1070,38 @@
 
 <script>
 // ===================== 共有設定（管理者がここを編集） =====================
-// APIキーをここに入力すると、同僚はキー入力不要で使えます
-// 空のままにすると、各自が入力する従来の動作になります
+// ⚠️⚠️ セキュリティ重要事項 ⚠️⚠️
+// ここにAPIキーを書くと、このHTMLファイルを開ける全員がキーを閲覧できます。
+// 共有運用する場合は、必ず Google Cloud Console で以下を設定してください:
+//   1.「APIの制限」→ このキーを YouTube Data API v3 のみに限定する
+//   2.「アプリケーションの制限」→ HTTPリファラで社内SharePointドメインのみ許可
+//     （file:// で開く運用ではリファラ制限が効かないため、配布範囲を厳密に管理）
+//   3. ファイルが外部に渡った可能性がある場合は、キーを再発行する
+// ※ 旧バージョンに埋め込まれていたキーは漏えいリスクがあるため再発行を推奨します
 const SHARED_CONFIG = {
-  apiKey: 'AIzaSyA8dBy7U326OP_9a9JrGjFToFmE6lmXMlc',
-  hideApiKeyUI: true,  // true=APIキー入力欄を非表示にする（共有時推奨）
+  apiKey: '',          // ← 上記の制限を設定済みのAPIキーのみをここに入力
+  hideApiKeyUI: false, // true=APIキー入力欄を非表示にする（共有時推奨）
+  geminiApiKey: '',    // Gemini APIキー（空=各自が設定タブで入力）
 };
 // ========================================================================
 
 // ===================== STATE =====================
 let state = {
-  apiKey: 'AIzaSyA8dBy7U326OP_9a9JrGjFToFmE6lmXMlc',
+  apiKey: '',
+  geminiApiKey: '',
   fixedTags: [],
   blacklist: [],
   contentTags: [],
   popularTags: [],
   existingTags: [],
   suggestTags: [],       // { tag, selected } — from suggest
+  aiTagsJa: [],          // { tag, selected } — Gemini 日本語タグ
+  aiTagsEn: [],          // { tag, selected } — Gemini 英語タグ
   outputFormat: 'hashtag', // 'hashtag' | 'desc' | 'studio'
+  pinnedTags: [],          // ⭐先頭固定タグ（出力順制御）
+  demandMap: {},           // { tagLower: true/false } — 検索需要チェック結果
+  shortsMode: false,       // 📱 Shortsモード
+  lastVideos: [],          // 直近の参照人気動画（競合分析用）
   options: {
     maxContent: 20,
     maxPopular: 30,
@@ -812,12 +1118,23 @@ function init() {
     try {
       const p = JSON.parse(saved);
       state.apiKey = p.apiKey || '';
+      state.geminiApiKey = p.geminiApiKey || '';
       state.fixedTags = p.fixedTags || [];
       state.blacklist = p.blacklist || [];
       state.outputFormat = p.outputFormat || 'hashtag';
+      state.pinnedTags = p.pinnedTags || [];
+      state.shortsMode = !!p.shortsMode;
       state.options = Object.assign(state.options, p.options || {});
     } catch(e) {}
   }
+
+  const shortsToggleEl = document.getElementById('shortsToggle');
+  if (shortsToggleEl) shortsToggleEl.checked = state.shortsMode;
+
+  // Gemini APIキーをUIに反映
+  const geminiInput = document.getElementById('geminiApiKeySettings');
+  if (geminiInput) geminiInput.value = state.geminiApiKey;
+  if (SHARED_CONFIG.geminiApiKey) state.geminiApiKey = SHARED_CONFIG.geminiApiKey;
 
   // 共有設定のAPIキーが埋め込まれている場合は上書き優先
   if (SHARED_CONFIG.apiKey) {
@@ -844,20 +1161,25 @@ function init() {
 function persist() {
   localStorage.setItem('ytHashState', JSON.stringify({
     apiKey: state.apiKey,
+    geminiApiKey: state.geminiApiKey,
     fixedTags: state.fixedTags,
     blacklist: state.blacklist,
     outputFormat: state.outputFormat,
+    pinnedTags: state.pinnedTags,
+    shortsMode: state.shortsMode,
     options: state.options
   }));
 }
 
 // ===================== TABS =====================
-function switchTab(tab) {
+function switchTab(tab, btn) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
-  event.target.classList.add('active');
+  const target = btn || document.querySelector(`.tab-btn[data-tab="${tab}"]`);
+  if (target) target.classList.add('active');
   if (tab === 'main') renderFixedTagsPreview();
+  if (tab === 'settings') renderHistory();
 }
 
 // ===================== API KEY =====================
@@ -912,11 +1234,17 @@ function applyOptions() {
 }
 
 function saveOptions() {
-  state.options.maxContent = parseInt(document.getElementById('optMaxContent').value) || 20;
-  state.options.maxPopular = parseInt(document.getElementById('optMaxPopular').value) || 30;
-  state.options.videoCount = parseInt(document.getElementById('optVideoCount').value) || 10;
-  state.options.maxTotal = parseInt(document.getElementById('optMaxTotal').value) || 30;
+  const clamp = (id, lo, hi, def) => {
+    const v = parseInt(document.getElementById(id).value);
+    return Math.min(hi, Math.max(lo, isNaN(v) ? def : v));
+  };
+  state.options.maxContent = clamp('optMaxContent', 1, 50, 20);
+  state.options.maxPopular = clamp('optMaxPopular', 1, 50, 30);
+  state.options.videoCount = clamp('optVideoCount', 1, 50, 10);
+  state.options.maxTotal   = clamp('optMaxTotal',   1, 60, 30);
+  applyOptions();
   persist();
+  updateOutput();
   showToast('設定を保存しました ✓');
 }
 
@@ -974,6 +1302,21 @@ function renderFixedTagsPreview() {
 }
 
 // ===================== URL FETCH =====================
+// YouTube categoryId → 日本語カテゴリ名
+const YT_CATEGORY_MAP = {
+  '1':'映画とアニメ','2':'自動車','10':'音楽','15':'ペットと動物','17':'スポーツ',
+  '19':'旅行とイベント','20':'ゲーム','22':'ブログ','23':'コメディー','24':'エンターテインメント',
+  '25':'ニュースと政治','26':'ハウツーとスタイル','27':'教育','28':'科学と技術','29':'非営利団体と社会活動'
+};
+
+function onShortsToggle(silent) {
+  const t = document.getElementById('shortsToggle');
+  state.shortsMode = !!(t && t.checked);
+  persist();
+  updateOutput();
+  if (!silent) showToast(state.shortsMode ? '📱 Shortsモード ON: #Shorts を先頭に追加します' : 'Shortsモード OFF');
+}
+
 function extractVideoId(url) {
   if (!url) return null;
   // Standard: ?v=XXXX
@@ -1032,10 +1375,14 @@ async function fetchVideoFromUrl() {
     // Fill fields
     document.getElementById('videoTitle').value = snippet.title || '';
     document.getElementById('videoDesc').value = snippet.description || '';
-    // Genre hint from category (optional)
-    if (!document.getElementById('videoGenre').value) {
-      document.getElementById('videoGenre').value = snippet.defaultAudioLanguage
-        ? '' : '';
+    // ジャンルをYouTubeカテゴリから自動設定
+    if (!document.getElementById('videoGenre').value && snippet.categoryId && YT_CATEGORY_MAP[snippet.categoryId]) {
+      document.getElementById('videoGenre').value = YT_CATEGORY_MAP[snippet.categoryId];
+    }
+    // Shorts URLなら自動でShortsモードON
+    if (/\/shorts\//.test(url)) {
+      const t = document.getElementById('shortsToggle');
+      if (t && !t.checked) { t.checked = true; onShortsToggle(true); showToast('📱 Shorts動画を検出: Shortsモードを自動ONにしました'); }
     }
 
     // Show meta card
@@ -1271,9 +1618,36 @@ function buildSearchQueries(title, genre) {
   return [...new Set(queries)].slice(0, 3);
 }
 
+// ===== 検索結果キャッシュ（search.list は1回100ユニット消費するため節約）=====
+const SEARCH_CACHE_TTL = 6 * 60 * 60 * 1000; // 6時間
+
+function getSearchCache(key) {
+  try {
+    const cache = JSON.parse(localStorage.getItem('ytSearchCache') || '{}');
+    const hit = cache[key];
+    if (hit && Date.now() - hit.ts < SEARCH_CACHE_TTL) return hit.ids;
+  } catch(e) {}
+  return null;
+}
+
+function setSearchCache(key, ids) {
+  try {
+    let cache = JSON.parse(localStorage.getItem('ytSearchCache') || '{}');
+    for (const k of Object.keys(cache)) {
+      if (Date.now() - cache[k].ts > SEARCH_CACHE_TTL) delete cache[k];
+    }
+    cache[key] = { ids, ts: Date.now() };
+    localStorage.setItem('ytSearchCache', JSON.stringify(cache));
+  } catch(e) {}
+}
+
 async function searchYouTube(query, trendingMode) {
   const key = state.apiKey;
   const maxResults = Math.min(state.options.videoCount, 50);
+  const cacheKey = `${query}|${trendingMode ? 1 : 0}|${maxResults}`;
+  const cached = getSearchCache(cacheKey);
+  if (cached) return cached;
+
   let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&order=viewCount&maxResults=${maxResults}&type=video&key=${key}`;
   if (trendingMode) {
     // 直近6ヶ月に絞る
@@ -1284,7 +1658,9 @@ async function searchYouTube(query, trendingMode) {
   const res = await fetch(url);
   const data = await res.json();
   if (data.error) throw new Error(data.error.message);
-  return (data.items || []).map(v => v.id.videoId).filter(Boolean);
+  const ids = (data.items || []).map(v => v.id.videoId).filter(Boolean);
+  setSearchCache(cacheKey, ids);
+  return ids;
 }
 
 async function fetchPopularVideos(title, genre) {
@@ -1395,6 +1771,7 @@ async function generateTags() {
 
   renderPopularTags();
   document.getElementById('popularTagsBadge').textContent = state.popularTags.length;
+  state.lastVideos = videos; // 競合タイトル分析用に保持
   renderVideoRefs(videos);
 
   setLoading(false);
@@ -1444,10 +1821,19 @@ function renderPopularTags() {
 function makeChip(tag, selected, isFixed, onClick, count, isHot) {
   const chip = document.createElement('span');
   chip.className = 'tag-chip' + (isFixed ? ' fixed' : selected ? ' selected' : '');
-  let inner = `#${tag}`;
-  if (isHot) inner += `<span class="hot-badge">🔥</span>`;
-  if (count) inner += `<span class="count">${count}</span>`;
-  chip.innerHTML = inner;
+  chip.appendChild(document.createTextNode('#' + tag)); // textNode化でXSS対策
+  if (isHot) {
+    const b = document.createElement('span');
+    b.className = 'hot-badge';
+    b.textContent = '🔥';
+    chip.appendChild(b);
+  }
+  if (count) {
+    const c = document.createElement('span');
+    c.className = 'count';
+    c.textContent = count;
+    chip.appendChild(c);
+  }
   chip.onclick = () => { onClick(); };
   return chip;
 }
@@ -1461,13 +1847,22 @@ function renderVideoRefs(videos) {
   videos.forEach((v, i) => {
     const row = document.createElement('div');
     row.className = 'video-ref';
-    row.innerHTML = `
-      <span class="vrank">${i + 1}</span>
-      <span class="vtitle" title="${v.title}">${v.title}</span>
-      <span class="vtags">${v.tags.length} タグ | ${Number(v.views).toLocaleString()} 再生</span>
-    `;
+    const rank = document.createElement('span');
+    rank.className = 'vrank';
+    rank.textContent = i + 1;
+    const title = document.createElement('span');
+    title.className = 'vtitle';
+    title.textContent = v.title; // textContentでXSS対策
+    title.title = v.title;
+    const meta = document.createElement('span');
+    meta.className = 'vtags';
+    meta.textContent = `${v.tags.length} タグ | ${Number(v.views).toLocaleString()} 再生`;
+    row.appendChild(rank); row.appendChild(title); row.appendChild(meta);
     list.appendChild(row);
   });
+  // 分析結果をリセット
+  document.getElementById('compResult').style.display = 'none';
+  document.getElementById('compStatus').textContent = '';
 }
 
 // ===================== BLACKLIST =====================
@@ -1609,12 +2004,46 @@ function collectSelected() {
     seen.add(t.toLowerCase());
     out.push(t);
   };
+  if (state.shortsMode) add('Shorts'); // 📱 Shortsモード: 先頭に自動追加
   state.fixedTags.forEach(add);
   (state.existingTags || []).filter(i => i.selected).forEach(i => add(i.tag));
   state.contentTags.filter(i => i.selected).forEach(i => add(i.tag));
   state.popularTags.filter(i => i.selected).forEach(i => add(i.tag));
   (state.suggestTags || []).filter(i => i.selected).forEach(i => add(i.tag));
+  (state.aiTagsJa || []).filter(i => i.selected).forEach(i => add(i.tag));
+  (state.aiTagsEn || []).filter(i => i.selected).forEach(i => add(i.tag));
+
+  // ⭐先頭固定タグを前に並べ替え（Shortsモード時は #Shorts が常に最優先）
+  const pinned = state.pinnedTags.map(t => t.toLowerCase());
+  out.sort((a, b) => {
+    const al = a.toLowerCase(), bl = b.toLowerCase();
+    if (state.shortsMode) {
+      if (al === 'shorts') return -1;
+      if (bl === 'shorts') return 1;
+    }
+    const ai = pinned.indexOf(al), bi = pinned.indexOf(bl);
+    return (ai === -1 ? 9999 : ai) - (bi === -1 ? 9999 : bi);
+  });
   return out.slice(0, state.options.maxTotal);
+}
+
+function isPinned(tag) {
+  const tl = tag.toLowerCase();
+  return state.pinnedTags.some(t => t.toLowerCase() === tl);
+}
+
+function togglePin(tag) {
+  const tl = tag.toLowerCase();
+  const i = state.pinnedTags.findIndex(t => t.toLowerCase() === tl);
+  if (i >= 0) {
+    state.pinnedTags.splice(i, 1);
+    showToast(`#${tag} の固定を解除しました`);
+  } else {
+    state.pinnedTags.unshift(tag);
+    showToast(`⭐ #${tag} を先頭に固定しました`);
+  }
+  persist();
+  updateOutput();
 }
 
 function formatOutput(tags) {
@@ -1624,17 +2053,34 @@ function formatOutput(tags) {
 }
 
 function updateCharCounter(tags) {
-  const totalChars = tags.join(' ').length;
-  const pct = Math.min((totalChars / 500) * 100, 100);
+  const counter = document.getElementById('charCounter');
   const bar = document.getElementById('charBar');
   const cur = document.getElementById('charCur');
-  const counter = document.getElementById('charCounter');
+  const maxEl = document.getElementById('charMax');
   counter.style.display = tags.length ? '' : 'none';
-  bar.style.width = pct + '%';
-  const cls = totalChars > 490 ? 'over' : totalChars > 430 ? 'warn' : '';
-  bar.className = 'char-bar' + (cls ? ' ' + cls : '');
-  cur.className = 'cur' + (cls ? ' ' + cls : '');
-  cur.textContent = totalChars > 500 ? totalChars + ' ⚠ 超過！' : totalChars;
+  if (!tags.length) return;
+
+  if (state.outputFormat === 'studio') {
+    // YouTube Studio タグ欄: 合計500文字制限
+    const totalChars = tags.join(',').length;
+    const pct = Math.min((totalChars / 500) * 100, 100);
+    bar.style.width = pct + '%';
+    const cls = totalChars > 490 ? 'over' : totalChars > 430 ? 'warn' : '';
+    bar.className = 'char-bar' + (cls ? ' ' + cls : '');
+    cur.className = 'cur' + (cls ? ' ' + cls : '');
+    cur.textContent = totalChars > 500 ? totalChars + ' ⚠ 超過！' : totalChars;
+    maxEl.textContent = '/ 500文字（Studioタグ欄の上限）';
+  } else {
+    // 概要欄ハッシュタグ: 60個超で全無効・推奨3〜5個
+    const n = tags.length;
+    const pct = Math.min((n / 60) * 100, 100);
+    bar.style.width = pct + '%';
+    const cls = n > 60 ? 'over' : n > 15 ? 'warn' : '';
+    bar.className = 'char-bar' + (cls ? ' ' + cls : '');
+    cur.className = 'cur' + (cls ? ' ' + cls : '');
+    cur.textContent = n > 60 ? n + '個 ⚠ 全ハッシュタグ無効！' : n + '個';
+    maxEl.textContent = '/ 60個（超過で全無効・推奨3〜5個）';
+  }
 }
 
 function updateOutput() {
@@ -1642,32 +2088,181 @@ function updateOutput() {
   const outputEl = document.getElementById('finalOutput');
   const copyBtn = document.getElementById('copyBtn');
   const countEl = document.getElementById('countIndicator');
+  const hintEl = document.getElementById('outputHint');
 
   if (tags.length === 0) {
     outputEl.innerHTML = '<span style="color:var(--text-sub);font-size:13px;">ハッシュタグを生成すると、ここに表示されます</span>';
     copyBtn.style.display = 'none';
     countEl.textContent = '';
     document.getElementById('charCounter').style.display = 'none';
+    if (hintEl) hintEl.style.display = 'none';
     return;
   }
 
-  const display = state.outputFormat === 'studio'
-    ? tags.map(t => `<span style="color:var(--text-sub);margin-right:3px;">${t},</span>`).join('')
-    : tags.map(t => `<span style="color:var(--blue);margin-right:4px;">#${t}</span>`).join(' ');
+  const isStudio = state.outputFormat === 'studio';
+  outputEl.innerHTML = '';
+  tags.forEach((t, i) => {
+    const span = document.createElement('span');
+    span.className = 'out-tag' + (isStudio ? ' studio' : '') + (isPinned(t) ? ' pinned' : '');
+    span.textContent = (isPinned(t) ? '⭐' : '') + (isStudio ? t + ',' : '#' + t);
+    if (state.demandMap[t.toLowerCase()] === true) {
+      const b = document.createElement('span');
+      b.className = 'demand-badge';
+      b.textContent = '📈';
+      b.title = 'YouTube検索サジェストに需要あり';
+      span.appendChild(b);
+    }
+    span.title = 'クリックで先頭に固定 / 解除';
+    span.onclick = () => togglePin(t);
+    outputEl.appendChild(span);
+    // 概要欄形式: 最初の3個(=タイトル上に表示される分)の後に区切りを表示
+    if (!isStudio && i === 2 && tags.length > 3) {
+      const div = document.createElement('span');
+      div.className = 'top3-divider';
+      div.textContent = '← タイトル上に表示されるのはここまで';
+      outputEl.appendChild(div);
+    }
+  });
 
-  outputEl.innerHTML = display;
   outputEl.appendChild(copyBtn);
   copyBtn.style.display = '';
+  if (hintEl) hintEl.style.display = isStudio ? 'none' : '';
 
   const hint = state.outputFormat === 'studio' ? '(YouTube Studio のタグ欄に貼り付け)'
              : state.outputFormat === 'desc' ? '(概要欄の末尾に貼り付け)' : '';
-  countEl.innerHTML = `選択中: <span>${tags.length}</span> / ${state.options.maxTotal} タグ　<span style="color:var(--text-sub)">${hint}</span>`;
+  let rec = '';
+  if (!isStudio && tags.length > 5) {
+    rec = ` <span style="color:#f0c040;">⚠ 概要欄は3〜5個推奨（現在${tags.length}個）</span>`;
+  }
+  countEl.innerHTML = `選択中: <span>${tags.length}</span> / ${state.options.maxTotal} タグ　<span style="color:var(--text-sub)">${hint}</span>${rec}`;
   updateCharCounter(tags);
 }
 
 function copyOutput() {
-  const text = formatOutput(collectSelected());
-  navigator.clipboard.writeText(text).then(() => showToast('コピーしました ✓'));
+  const tags = collectSelected();
+  const text = formatOutput(tags);
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('コピーしました ✓');
+    saveHistory(tags); // コピー時に履歴へ自動保存
+  });
+}
+
+// ===================== 検索需要チェック（サジェスト照合） =====================
+let demandRunning = false;
+
+function fetchSuggestRaw(q) {
+  return new Promise((resolve, reject) => {
+    const cbName = 'ytDemand_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+    const script = document.createElement('script');
+    const timer = setTimeout(() => { cleanup(); reject(new Error('timeout')); }, 5000);
+    function cleanup() {
+      clearTimeout(timer);
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+    }
+    window[cbName] = (data) => {
+      cleanup();
+      resolve((data[1] || []).map(s => Array.isArray(s) ? s[0] : s).filter(Boolean));
+    };
+    script.src = `https://suggestqueries.google.com/complete/search?client=youtube&q=${encodeURIComponent(q)}&hl=ja&callback=${cbName}`;
+    script.onerror = () => { cleanup(); reject(new Error('network')); };
+    document.head.appendChild(script);
+  });
+}
+
+async function checkTagDemand() {
+  if (demandRunning) return;
+  const tags = collectSelected().slice(0, 15); // 最大15個まで照合
+  if (!tags.length) { showToast('先にタグを生成・選択してください'); return; }
+
+  demandRunning = true;
+  const btn = document.getElementById('demandBtn');
+  const status = document.getElementById('demandStatus');
+  btn.disabled = true;
+
+  let done = 0;
+  for (const tag of tags) {
+    done++;
+    status.textContent = `チェック中... ${done}/${tags.length}`;
+    try {
+      const query = tag.replace(/_/g, ' ');
+      const sugg = await fetchSuggestRaw(query);
+      const tl = query.toLowerCase();
+      // サジェストが3件以上返る、または候補にタグが含まれる → 検索需要あり
+      state.demandMap[tag.toLowerCase()] =
+        sugg.length >= 3 ||
+        sugg.some(s => { const sl = s.toLowerCase(); return sl.includes(tl) || tl.includes(sl); });
+    } catch(e) { /* 失敗したタグはスキップ */ }
+    await new Promise(r => setTimeout(r, 250)); // 連続リクエスト抑制
+  }
+
+  status.textContent = '📈 = 検索サジェストに需要が確認できたタグ';
+  btn.disabled = false;
+  demandRunning = false;
+  updateOutput();
+  showToast('検索需要チェック完了 ✓');
+}
+
+// ===================== 生成履歴 =====================
+function saveHistory(tags) {
+  if (!tags || !tags.length) return;
+  const title = document.getElementById('videoTitle').value.trim();
+  let hist = [];
+  try { hist = JSON.parse(localStorage.getItem('ytHashHistory') || '[]'); } catch(e) {}
+  hist.unshift({
+    date: new Date().toLocaleString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }),
+    title: title || '(タイトルなし)',
+    tags
+  });
+  localStorage.setItem('ytHashHistory', JSON.stringify(hist.slice(0, 20)));
+}
+
+function renderHistory() {
+  const el = document.getElementById('historyList');
+  if (!el) return;
+  let hist = [];
+  try { hist = JSON.parse(localStorage.getItem('ytHashHistory') || '[]'); } catch(e) {}
+  el.innerHTML = '';
+  if (!hist.length) {
+    el.innerHTML = '<div class="empty">履歴がありません（コピー時に自動保存されます）</div>';
+    return;
+  }
+  hist.forEach((h, i) => {
+    const row = document.createElement('div');
+    row.className = 'fixed-tag-item';
+    const span = document.createElement('span');
+    span.className = 'history-meta';
+    span.textContent = `${h.date}　${h.title}（${h.tags.length}タグ）`;
+    span.title = h.tags.map(t => '#' + t).join(' ');
+    const restoreBtn = document.createElement('button');
+    restoreBtn.className = 'btn btn-sm btn-secondary';
+    restoreBtn.textContent = '復元';
+    restoreBtn.onclick = () => restoreHistory(i);
+    const delBtn = document.createElement('button');
+    delBtn.className = 'del-btn';
+    delBtn.title = '削除';
+    delBtn.textContent = '✕';
+    delBtn.onclick = () => {
+      hist.splice(i, 1);
+      localStorage.setItem('ytHashHistory', JSON.stringify(hist));
+      renderHistory();
+    };
+    row.appendChild(span); row.appendChild(restoreBtn); row.appendChild(delBtn);
+    el.appendChild(row);
+  });
+}
+
+function restoreHistory(i) {
+  let hist = [];
+  try { hist = JSON.parse(localStorage.getItem('ytHashHistory') || '[]'); } catch(e) {}
+  const h = hist[i];
+  if (!h) return;
+  if (h.title && h.title !== '(タイトルなし)') document.getElementById('videoTitle').value = h.title;
+  state.existingTags = h.tags.map(t => ({ tag: t, selected: true }));
+  renderExistingTags();
+  switchTab('main');
+  updateOutput();
+  showToast(`履歴から ${h.tags.length} タグを復元しました ✓`);
 }
 
 // ===================== UI UTILS =====================
@@ -1687,6 +2282,277 @@ function showToast(msg) {
   toast.textContent = msg;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// ===================== GEMINI API =====================
+
+function saveGeminiApiKey() {
+  const v = document.getElementById('geminiApiKeySettings').value.trim();
+  state.geminiApiKey = v;
+  const el = document.getElementById('geminiKeyStatus');
+  if (v.startsWith('AIza') && v.length > 30) {
+    el.innerHTML = '<span style="color:var(--green)">✓ 設定済み</span>';
+  } else if (v) {
+    el.innerHTML = '<span style="color:var(--accent)">形式を確認してください</span>';
+  } else {
+    el.innerHTML = '';
+  }
+  persist();
+}
+
+async function analyzeWithGemini() {
+  const url = document.getElementById('videoUrl').value.trim();
+  if (!url || (!url.includes('youtube.com') && !url.includes('youtu.be'))) {
+    setGeminiStatus('⚠️ まず YouTube URL を入力してください', 'warn');
+    return;
+  }
+  const key = state.geminiApiKey;
+  if (!key) {
+    setGeminiStatus('⚠️ 設定タブで Gemini API キーを入力してください', 'warn');
+    return;
+  }
+  const btn = document.getElementById('geminiBtn');
+  btn.disabled = true;
+  setGeminiStatus('✨ Gemini が動画を解析中です... (30〜60秒かかる場合があります)', 'info');
+  document.getElementById('aiResultsCard').style.display = 'none';
+
+  const titleHint = document.getElementById('videoTitle').value.trim();
+  const prompt = `
+以下のYouTube動画を分析し、必ずJSON形式のみで回答してください。余分な文章は不要です。
+
+{
+  "summary": "動画の内容要約（150文字程度の日本語）",
+  "tags_ja": ["日本語タグ1", "タグ2", ...],
+  "tags_en": ["EnglishTag1", "Tag2", ...],
+  "title_suggestions": [
+    "改善タイトル案1",
+    "改善タイトル案2",
+    "改善タイトル案3"
+  ],
+  "thumbnail_texts": ["サムネ文言案1", "サムネ文言案2", "サムネ文言案3", "サムネ文言案4"],
+  "description": "YouTube概要欄用の説明文（400〜600文字、日本語）",
+  "chapters": [
+    {"time": "0:00", "title": "イントロ"},
+    ...
+  ]
+}
+
+条件:
+- tags_ja: YouTubeで有効な日本語ハッシュタグ15〜20個（スペースなし）
+- tags_en: 英語ハッシュタグ10〜15個（スペースはアンダースコアに変換）
+- title_suggestions: 現在のタイトル「${titleHint || '（タイトル不明）'}」のクリック率(CTR)を高める改善案3つ。必ず以下のテクニックを組み合わせること:
+  ① 具体的な数字を含める（「5つの方法」「3分でわかる」等）
+  ② 【】でターゲット・属性を明示（【初心者向け】【2026年最新】等）
+  ③ 視聴者ベネフィットを先頭に置く（「〜できる」「〜がわかる」）
+  ④ 疑問形・意外性のフックを使う
+  ⑤ 検索結果で切れないよう32文字以内に収める
+- thumbnail_texts: サムネイルに大きく載せる短いインパクト文言。7文字以内、3〜4案（例:「9割が知らない」→×長い、「衝撃の結末」→○）
+- chapters: 動画内容に基づくタイムスタンプ（チャプター）。必ず "0:00" から開始し3個以上
+- description: SEO対策済みの自然な日本語説明文。重要キーワードを冒頭150文字に含める
+`.trim();
+
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{
+            parts: [
+              { file_data: { file_uri: url } },
+              { text: prompt }
+            ]
+          }],
+          generationConfig: {
+            responseMimeType: 'application/json',
+            temperature: 0.4
+          }
+        })
+      }
+    );
+    const data = await res.json();
+    if (!res.ok || data.error) {
+      const msg = data.error?.message || res.statusText;
+      setGeminiStatus(`❌ エラー: ${msg}`, 'error');
+      btn.disabled = false;
+      return;
+    }
+    let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    // JSON部分を抽出（```json ... ``` 対策）
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('レスポンスのJSON解析に失敗しました');
+    const result = JSON.parse(jsonMatch[0]);
+    renderGeminiResults(result);
+    setGeminiStatus('✅ 分析完了！タグをクリックして生成結果に追加できます', 'ok');
+  } catch(e) {
+    setGeminiStatus(`❌ ${e.message}`, 'error');
+  }
+  btn.disabled = false;
+}
+
+function setGeminiStatus(msg, type) {
+  const el = document.getElementById('geminiStatus');
+  const colors = { ok: 'var(--green)', warn: '#f59e0b', error: 'var(--accent)', info: 'var(--gemini2)' };
+  el.style.color = colors[type] || 'var(--text-sub)';
+  el.textContent = msg;
+}
+
+function renderGeminiResults(r) {
+  const card = document.getElementById('aiResultsCard');
+  card.style.display = '';
+
+  // 要約
+  const summaryBox = document.getElementById('aiSummaryBox');
+  summaryBox.textContent = r.summary || '（要約なし）';
+
+  // 日本語タグ
+  state.aiTagsJa = (r.tags_ja || []).map(t => ({ tag: t.replace(/^#+/, '').trim(), selected: false }));
+  renderAiTags('aiTagsJaContainer', state.aiTagsJa, 'ja');
+
+  // 英語タグ
+  state.aiTagsEn = (r.tags_en || []).map(t => ({ tag: t.replace(/^#+/, '').trim(), selected: false }));
+  renderAiTags('aiTagsEnContainer', state.aiTagsEn, 'en');
+
+  // タイトル改善
+  const titlesEl = document.getElementById('aiTitlesContainer');
+  titlesEl.innerHTML = '';
+  (r.title_suggestions || []).forEach((t, i) => {
+    const div = document.createElement('div');
+    div.className = 'title-option';
+    const num = document.createElement('span');
+    num.className = 'title-num';
+    num.textContent = i + 1;
+    const txt = document.createElement('span');
+    txt.textContent = t; // textContentでXSS対策
+    div.appendChild(num); div.appendChild(txt);
+    div.onclick = () => {
+      navigator.clipboard.writeText(t).then(() => showToast(`タイトル${i+1}をコピーしました ✓`));
+    };
+    titlesEl.appendChild(div);
+  });
+
+  // サムネイル文言案
+  const thumbSection = document.getElementById('aiThumbSection');
+  const thumbEl = document.getElementById('aiThumbContainer');
+  thumbEl.innerHTML = '';
+  const thumbTexts = r.thumbnail_texts || [];
+  thumbSection.style.display = thumbTexts.length ? '' : 'none';
+  thumbTexts.forEach(t => {
+    const chip = document.createElement('span');
+    chip.className = 'ai-tag';
+    chip.textContent = t;
+    chip.title = 'クリックでコピー';
+    chip.onclick = () => navigator.clipboard.writeText(t).then(() => showToast('サムネ文言をコピーしました ✓'));
+    thumbEl.appendChild(chip);
+  });
+
+  // 説明文
+  document.getElementById('aiDescText').textContent = r.description || '';
+
+  // チャプター
+  const chapters = (r.chapters || []).map(c => `${c.time}  ${c.title}`).join('\n');
+  document.getElementById('aiChaptersText').textContent = chapters;
+
+  updateOutput();
+}
+
+function renderAiTags(containerId, items, lang) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  if (!items.length) { container.innerHTML = '<span style="color:var(--text-sub);font-size:12px;">タグが取得できませんでした</span>'; return; }
+  items.forEach((item, idx) => {
+    const chip = document.createElement('span');
+    chip.className = 'ai-tag' + (item.selected ? ' added' : '');
+    chip.textContent = '#' + item.tag;
+    chip.onclick = () => {
+      if (lang === 'ja') state.aiTagsJa[idx].selected = !state.aiTagsJa[idx].selected;
+      else state.aiTagsEn[idx].selected = !state.aiTagsEn[idx].selected;
+      chip.className = 'ai-tag' + (item.selected ? ' added' : '');
+      updateOutput();
+    };
+    container.appendChild(chip);
+  });
+}
+
+function copyAiBlock(blockId) {
+  const el = document.getElementById(blockId);
+  const textEl = el.querySelector('span');
+  const text = textEl ? textEl.textContent : el.innerText;
+  navigator.clipboard.writeText(text).then(() => showToast('コピーしました ✓'));
+}
+
+// ===================== 競合タイトル分析（Gemini） =====================
+async function analyzeCompetitors() {
+  const videos = state.lastVideos || [];
+  const statusEl = document.getElementById('compStatus');
+  if (!videos.length) { showToast('先にハッシュタグを生成してください'); return; }
+  if (!state.geminiApiKey) {
+    statusEl.textContent = '⚠️ 設定タブで Gemini API キーを入力してください';
+    statusEl.style.color = '#f59e0b';
+    return;
+  }
+
+  const btn = document.getElementById('compBtn');
+  btn.disabled = true;
+  statusEl.style.color = 'var(--gemini2)';
+  statusEl.textContent = '✨ 上位動画のタイトルパターンを分析中...';
+
+  const myTitle = document.getElementById('videoTitle').value.trim() || '（未入力）';
+  const list = videos.slice(0, 10).map((v, i) => `${i + 1}. [${Number(v.views).toLocaleString()}回再生] ${v.title}`).join('\n');
+
+  const prompt = `
+あなたはYouTubeのSEOとクリック率(CTR)最適化の専門家です。
+同ジャンルの再生数上位動画のタイトルを分析し、必ずJSON形式のみで回答してください。
+
+{
+  "common_patterns": ["上位動画タイトルに共通するパターンや型（3〜5個、具体的に）"],
+  "missing_elements": ["自分のタイトルに欠けている要素（2〜4個）"],
+  "improved_titles": ["分析を踏まえた改善タイトル案（32文字以内）", "案2", "案3"]
+}
+
+■ 同ジャンル再生数上位動画:
+${list}
+
+■ 自分のタイトル: ${myTitle}
+`.trim();
+
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${state.geminiApiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { responseMimeType: 'application/json', temperature: 0.5 }
+        })
+      }
+    );
+    const data = await res.json();
+    if (!res.ok || data.error) throw new Error(data.error?.message || res.statusText);
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const m = text.match(/\{[\s\S]*\}/);
+    if (!m) throw new Error('レスポンスのJSON解析に失敗しました');
+    const r = JSON.parse(m[0]);
+
+    const box = document.getElementById('compResult');
+    const txt = document.getElementById('compResultText');
+    txt.textContent =
+      '◆ 上位動画タイトルの共通パターン\n' +
+      (r.common_patterns || []).map(s => '・' + s).join('\n') +
+      '\n\n◆ 自分のタイトルに欠けている要素\n' +
+      (r.missing_elements || []).map(s => '・' + s).join('\n') +
+      '\n\n◆ 改善タイトル案\n' +
+      (r.improved_titles || []).map((s, i) => `${i + 1}. ${s}`).join('\n');
+    box.style.display = '';
+    statusEl.style.color = 'var(--green)';
+    statusEl.textContent = '✅ 分析完了';
+  } catch(e) {
+    statusEl.style.color = 'var(--accent)';
+    statusEl.textContent = '❌ ' + e.message;
+  }
+  btn.disabled = false;
 }
 
 // ===================== BOOT =====================
