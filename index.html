@@ -1965,6 +1965,7 @@ function renderSuggestResults() {
       state.suggestTags[idx].selected = !state.suggestTags[idx].selected;
       chip.className = 'suggest-chip' + (state.suggestTags[idx].selected ? ' added' : '');
       updateOutput();
+      if (state.suggestTags[idx].selected) notifyIfNotIncluded(state.suggestTags[idx].tag);
     };
     container.appendChild(chip);
   });
@@ -2006,12 +2007,13 @@ function collectSelected() {
   };
   if (state.shortsMode) add('Shorts'); // 📱 Shortsモード: 先頭に自動追加
   state.fixedTags.forEach(add);
+  // 手動でクリックしたタグ(AI・サジェスト)を自動選択タグより優先して枠を確保
+  (state.aiTagsJa || []).filter(i => i.selected).forEach(i => add(i.tag));
+  (state.aiTagsEn || []).filter(i => i.selected).forEach(i => add(i.tag));
+  (state.suggestTags || []).filter(i => i.selected).forEach(i => add(i.tag));
   (state.existingTags || []).filter(i => i.selected).forEach(i => add(i.tag));
   state.contentTags.filter(i => i.selected).forEach(i => add(i.tag));
   state.popularTags.filter(i => i.selected).forEach(i => add(i.tag));
-  (state.suggestTags || []).filter(i => i.selected).forEach(i => add(i.tag));
-  (state.aiTagsJa || []).filter(i => i.selected).forEach(i => add(i.tag));
-  (state.aiTagsEn || []).filter(i => i.selected).forEach(i => add(i.tag));
 
   // ⭐先頭固定タグを前に並べ替え（Shortsモード時は #Shorts が常に最優先）
   const pinned = state.pinnedTags.map(t => t.toLowerCase());
@@ -2468,13 +2470,24 @@ function renderAiTags(containerId, items, lang) {
     chip.className = 'ai-tag' + (item.selected ? ' added' : '');
     chip.textContent = '#' + item.tag;
     chip.onclick = () => {
-      if (lang === 'ja') state.aiTagsJa[idx].selected = !state.aiTagsJa[idx].selected;
-      else state.aiTagsEn[idx].selected = !state.aiTagsEn[idx].selected;
-      chip.className = 'ai-tag' + (item.selected ? ' added' : '');
+      const arr = lang === 'ja' ? state.aiTagsJa : state.aiTagsEn;
+      arr[idx].selected = !arr[idx].selected;
+      chip.className = 'ai-tag' + (arr[idx].selected ? ' added' : '');
       updateOutput();
+      if (arr[idx].selected) notifyIfNotIncluded(arr[idx].tag);
     };
     container.appendChild(chip);
   });
+}
+
+// 選択したタグが上限超過で出力に入らなかった場合に警告
+function notifyIfNotIncluded(tag) {
+  const t = sanitizeTagForYouTube(String(tag).replace(/^#+/, '').trim());
+  if (!t) return;
+  const included = collectSelected().some(x => x.toLowerCase() === t.toLowerCase());
+  if (!included) {
+    showToast(`⚠ 出力上限 ${state.options.maxTotal} タグに達しています。他のタグを解除するか、設定タブで上限を変更してください`);
+  }
 }
 
 function copyAiBlock(blockId) {
